@@ -17,9 +17,9 @@ export const allProducts = async (req: Request, res: Response) => {
 
 export const createProduct = async (req: Request, res: Response) => {
   const product = req.body;
-  const file = req?.file?.filename ?? 'default.jpeg';
+  const img = req?.file?.filename ?? 'default.jpeg';
   try {
-    const newProduct = await handleCreateProduct({ ...product, img: file });
+    const newProduct = await handleCreateProduct({ ...product, img });
     res.status(200).send({ newProduct, msg: 'Producto Agregado' });
   } catch (error) {
     res.status(500).send({ error, msg: 'Producto No Agregado' });
@@ -29,9 +29,11 @@ export const createProduct = async (req: Request, res: Response) => {
 export const updateProduct = async (req: Request, res: Response) => {
   const product = req.body;
   const id = req.params.id;
+  const img =
+    product.img === 'default.jpeg' ? req?.file?.filename : 'default.jpeg';
 
   try {
-    const updateProduct = await handleUpdateProduct(id, product);
+    const updateProduct = await handleUpdateProduct(id, { ...product, img });
     res.status(200).send({ updateProduct, msg: 'Producto Actualizado' });
   } catch (error) {
     res.status(500).send({ error, msg: 'Producto No Actualizado' });
