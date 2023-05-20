@@ -1,8 +1,29 @@
-import { product } from '../intefaces/product';
+import { product, productsWithId } from '../intefaces/product';
 import { productsModel } from '../models/products';
 
-export const handleAllProducts = async () => {
-  return await productsModel.find({});
+interface query {
+  category?: string;
+  filter?: string;
+}
+export const handleAllProducts = async ({ category, filter }: query) => {
+  const allData = await productsModel.find({});
+  if (filter === null) return allData;
+
+  const categoryFilter =
+    category !== 'all'
+      ? allData.filter((cat) => {
+          return cat.Categoria === category;
+        })
+      : allData;
+
+  const newfilterData =
+    filter !== null && filter !== undefined
+      ? categoryFilter?.filter((data) => {
+          return data.Descripcion.toLowerCase().includes(filter.toLowerCase());
+        })
+      : categoryFilter;
+
+  return newfilterData;
 };
 
 export const handleCreateProduct = async (product: product) => {

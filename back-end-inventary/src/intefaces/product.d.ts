@@ -9,5 +9,5 @@ export interface product {
 }
 
 export interface productsWithId extends product {
-  id: string;
+  _id: string;
 }

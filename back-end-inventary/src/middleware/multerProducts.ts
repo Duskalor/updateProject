@@ -12,9 +12,7 @@ const storage = diskStorage({
   },
   async filename(req, file, callback) {
     const { id } = req.params;
-    // console.log({ id });
     const exist = await productsModel.findOne({ _id: id });
-    console.log({ exist });
     const continueNextPart = exist?.img ?? 'DontExist';
 
     if (

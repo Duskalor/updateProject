@@ -7,8 +7,12 @@ import {
 } from '../services/products';
 
 export const allProducts = async (req: Request, res: Response) => {
+  const { category, filter } = req.query;
   try {
-    const Alldata = await handleAllProducts();
+    const Alldata = await handleAllProducts({
+      category: category?.toString(),
+      filter: filter?.toString(),
+    });
     res.send({ msg: 'Todos los Productos', Alldata });
   } catch (error) {
     res.status(404).send({ error });
