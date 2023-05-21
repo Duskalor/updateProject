@@ -58,3 +58,41 @@ export const deleteProducts = async (id) => {
     console.log(err);
   }
 };
+
+export const productEditFetch = async (data) => {
+  const formData = new FormData();
+  console.log(data);
+  // Agrega los demás datos del formulario al objeto FormData si los hay
+  formData.append('Codigo', data.Codigo);
+  formData.append('Descripcion', data.Descripcion);
+  formData.append('Categoria', data.Categoria);
+  formData.append('PrecioCompra', data.PrecioCompra);
+  formData.append('PrecioVenta', data.PrecioVenta);
+  formData.append('Stock', data.Stock);
+
+  // if (data.img !== 'default.jpeg') {
+  //   formData.append('products', data.img[0]); // Agrega la imagen al objeto FormData
+  // }
+
+  try {
+    const res = await fetch(
+      `http://127.0.0.1:9000/products/update/${data._id}`,
+      {
+        method: 'PUT',
+        body: formData,
+      }
+    );
+
+    if (!res.ok) {
+      toast.error('error al editar un producto');
+
+      throw new Error('Failed to post product.');
+    } else {
+      toast.success('producto Editado Correctamente');
+    }
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

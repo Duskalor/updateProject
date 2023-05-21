@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Barside } from './components/Barside';
-import { Products } from './components/products/Products';
+import { ProductsLayout } from './components/products/ProductsLayout';
 import { Dashboard } from './components/Dashboard';
 import { Usuarios } from './components/Usuarios';
 import { Entradas } from './components/Entradas';
@@ -19,7 +19,7 @@ function App() {
             <>
               <Routes>
                 <Route path='/' element={<Dashboard />} />
-                <Route path='/products' element={<Products />} />
+                <Route path='/products' element={<ProductsLayout />} />
                 <Route path='/usuarios' element={<Usuarios />} />
                 <Route path='/entradas' element={<Entradas />} />
                 <Route path='/salidas' element={<Salidas />} />

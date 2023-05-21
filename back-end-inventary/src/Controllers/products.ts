@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import { unlink } from 'fs';
+
 import {
   handleAllProducts,
   handleCreateProduct,
@@ -48,6 +50,17 @@ export const deleteProduct = async (req: Request, res: Response) => {
   const id = req.params.id;
   try {
     const deleteProduct = await handledeleteProduct(id);
+    const pathDirImg = `${process.cwd()}/Products`;
+
+    unlink(`${pathDirImg}/${deleteProduct?.img}`, (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+
+      console.log('El archivo ha sido eliminado exitosamente.');
+    });
+
     res.status(200).send({ deleteProduct, msg: 'Producto Eliminado' });
   } catch (error) {
     res.status(500).send({ error, msg: 'Producto No Eliminado' });

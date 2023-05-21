@@ -1,4 +1,5 @@
 import { buttonStyle } from '../../utils/buttonStyle';
+import { EditFormProducts, EditImgProducts } from './EditFormProducts';
 import { FormProducts } from './FormProducts';
 import { IconTrash } from '@tabler/icons-react';
 
@@ -8,6 +9,7 @@ export const ProductsTable = ({
   mutate,
   setOpenForm,
   openForm,
+  isError,
 }) => {
   return (
     <div className='mt-5'>
@@ -39,7 +41,8 @@ export const ProductsTable = ({
           </tr>
         </thead>
         <tbody>
-          {!isFetching && products ? (
+          {!isFetching &&
+            products &&
             products.map((data, i) => {
               const color = i % 2 === 0 ? 'bg-white' : 'bg-gray-50';
               return (
@@ -49,10 +52,9 @@ export const ProductsTable = ({
                   </td>
                   <td>
                     <div className='p-3 text-2sm text-gray-700 flex justify-between gap-5'>
-                      <img
-                        className=' h-10 w-14'
-                        src={`http://127.0.0.1:9000/products/images/${data.img}`}
-                        alt={data.Descripcion}
+                      <EditImgProducts
+                        img={data.img}
+                        Descripcion={data.Descripcion}
                       />
                       <div className='w-[70%] flex items-center '>
                         <p>{data.Descripcion}</p>
@@ -80,9 +82,8 @@ export const ProductsTable = ({
                   </td>
                   <td>
                     <div className='flex justify-around items-center '>
-                      <button className={`${buttonStyle} w-[40%]`}>
-                        Editar
-                      </button>
+                      <EditFormProducts product={data} />
+
                       <button
                         onClick={() => mutate(data._id)}
                         className={`${buttonStyle} `}
@@ -93,10 +94,17 @@ export const ProductsTable = ({
                   </td>
                 </tr>
               );
-            })
-          ) : (
+            })}
+          {isFetching && (
             <tr>
-              <td colSpan='5' className='text-2xl pt-5'>
+              <td colSpan='7' className='text-2xl pt-5'>
+                Cargando los datos.
+              </td>
+            </tr>
+          )}
+          {isError && (
+            <tr>
+              <td colSpan='7' className='text-2xl pt-5'>
                 Error al cargar los datos.
               </td>
             </tr>

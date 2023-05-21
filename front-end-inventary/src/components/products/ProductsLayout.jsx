@@ -4,14 +4,18 @@ import { useState } from 'react';
 import { ProductsTable } from './ProductsTable';
 import { HeaderProducts } from './HeaderProducts';
 
-export const Products = () => {
+export const ProductsLayout = () => {
   const [filterData, setFilterData] = useState('');
   const [catergory, setCatergory] = useState('all');
   const [openForm, setOpenForm] = useState(false);
 
   const client = useQueryClient();
 
-  const { data: products, isFetching } = useQuery({
+  const {
+    data: products,
+    isFetching,
+    isError,
+  } = useQuery({
     queryKey: ['products', filterData, catergory],
     queryFn: () => productFetch(filterData, catergory),
   });
@@ -38,6 +42,7 @@ export const Products = () => {
         mutate={mutate}
         setOpenForm={setOpenForm}
         openForm={openForm}
+        isError={isError}
       />
     </div>
   );

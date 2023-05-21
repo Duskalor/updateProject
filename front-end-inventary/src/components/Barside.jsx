@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { routesProject } from '../assets/routes';
 import {
@@ -10,7 +10,15 @@ import {
   IconSettings,
 } from '@tabler/icons-react';
 export const Barside = () => {
-  const [state, setState] = useState(routesProject.general);
+  const [state, setState] = useState(() => {
+    const state = localStorage.getItem('state');
+    return state ?? routesProject.general;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('state', state);
+  }, [state]);
+
   return (
     <section className='fixed border-r-[1px] border-gray-300 w-[130px] flex flex-col h-full bg-white p-3 '>
       <h1 className='py-5 border-b-2 text-3xl inline-block mb-6'>Duska TECH</h1>
