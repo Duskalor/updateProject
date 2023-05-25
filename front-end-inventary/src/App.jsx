@@ -8,6 +8,7 @@ import { Entradas } from './components/Entradas';
 import { Salidas } from './components/Salidas';
 import { Configuracion } from './components/Configuracion';
 import { Toaster } from 'sonner';
+import { ClientesLayout } from './components/clientes/ClientesLayout';
 function App() {
   return (
     <div className='bg-gray-200 h-screen w-screen text-center flex justify-center'>
@@ -22,6 +23,7 @@ function App() {
                 <Route path='/products' element={<ProductsLayout />} />
                 <Route path='/usuarios' element={<Usuarios />} />
                 <Route path='/entradas' element={<Entradas />} />
+                <Route path='/clientes' element={<ClientesLayout />} />
                 <Route path='/salidas' element={<Salidas />} />
                 <Route path='/configuracion' element={<Configuracion />} />
               </Routes>

@@ -1,15 +1,13 @@
-import { buttonStyle } from '../../utils/buttonStyle';
+import { ModalDelete } from '../../utils/ModalDelete';
 import { EditFormProducts, EditImgProducts } from './EditFormProducts';
 import { FormProducts } from './FormProducts';
-import { IconTrash } from '@tabler/icons-react';
 
 export const ProductsTable = ({
   products,
-  isFetching,
-  mutate,
   setOpenForm,
   openForm,
   isError,
+  isLoading,
 }) => {
   return (
     <div className='mt-5'>
@@ -41,7 +39,7 @@ export const ProductsTable = ({
           </tr>
         </thead>
         <tbody>
-          {!isFetching &&
+          {!isLoading &&
             products &&
             products.map((data, i) => {
               const color = i % 2 === 0 ? 'bg-white' : 'bg-gray-50';
@@ -83,19 +81,16 @@ export const ProductsTable = ({
                   <td>
                     <div className='flex justify-around items-center '>
                       <EditFormProducts product={data} />
-
-                      <button
-                        onClick={() => mutate(data._id)}
-                        className={`${buttonStyle} `}
-                      >
-                        <IconTrash />
-                      </button>
+                      <ModalDelete
+                        id={data._id}
+                        text={`Realmente desea eliminar el producto  '${data.Descripcion}' ??`}
+                      />
                     </div>
                   </td>
                 </tr>
               );
             })}
-          {isFetching && (
+          {isLoading && (
             <tr>
               <td colSpan='7' className='text-2xl pt-5'>
                 Cargando los datos.

@@ -6,7 +6,7 @@ import {
   handleCreateProduct,
   handleUpdateProduct,
   handledeleteProduct,
-} from '../services/products';
+} from '../services/product';
 
 export const allProducts = async (req: Request, res: Response) => {
   const { category, filter } = req.query;
@@ -35,11 +35,9 @@ export const createProduct = async (req: Request, res: Response) => {
 export const updateProduct = async (req: Request, res: Response) => {
   const product = req.body;
   const id = req.params.id;
-  const img =
-    product.img === 'default.jpeg' ? req?.file?.filename : 'default.jpeg';
 
   try {
-    const updateProduct = await handleUpdateProduct(id, { ...product, img });
+    const updateProduct = await handleUpdateProduct(id, { ...product });
     res.status(200).send({ updateProduct, msg: 'Producto Actualizado' });
   } catch (error) {
     res.status(500).send({ error, msg: 'Producto No Actualizado' });
@@ -52,14 +50,16 @@ export const deleteProduct = async (req: Request, res: Response) => {
     const deleteProduct = await handledeleteProduct(id);
     const pathDirImg = `${process.cwd()}/Products`;
 
-    unlink(`${pathDirImg}/${deleteProduct?.img}`, (err) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
+    if (deleteProduct?.img !== 'default.jpeg') {
+      unlink(`${pathDirImg}/${deleteProduct?.img}`, (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
 
-      console.log('El archivo ha sido eliminado exitosamente.');
-    });
+        console.log('El archivo ha sido eliminado exitosamente.');
+      });
+    }
 
     res.status(200).send({ deleteProduct, msg: 'Producto Eliminado' });
   } catch (error) {

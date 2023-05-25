@@ -3,8 +3,8 @@ import { toast } from 'sonner';
 export const productFetch = async (filterData, catergory) => {
   const url =
     filterData === ''
-      ? `http://127.0.0.1:9000/products?category=${catergory}`
-      : `http://127.0.0.1:9000/products?category=${catergory}&filter=${filterData}`;
+      ? `http://127.0.0.1:9000/productos?category=${catergory}`
+      : `http://127.0.0.1:9000/productos?category=${catergory}&filter=${filterData}`;
 
   const res = await fetch(url);
   const data = await res.json();
@@ -22,7 +22,7 @@ export const productPostFetch = async (data) => {
   formData.append('Stock', data.Stock);
   formData.append('products', data.img[0]); // Agrega la imagen al objeto FormData
   try {
-    const res = await fetch('http://127.0.0.1:9000/products/create/', {
+    const res = await fetch('http://127.0.0.1:9000/productos/create/', {
       method: 'POST',
       body: formData,
     });
@@ -43,7 +43,7 @@ export const productPostFetch = async (data) => {
 
 export const deleteProducts = async (id) => {
   try {
-    const res = await fetch(`http://127.0.0.1:9000/products/delete/${id}`, {
+    const res = await fetch(`http://127.0.0.1:9000/productos/delete/${id}`, {
       method: 'DELETE',
     });
 
@@ -61,7 +61,6 @@ export const deleteProducts = async (id) => {
 
 export const productEditFetch = async (data) => {
   const formData = new FormData();
-  console.log(data);
   // Agrega los demás datos del formulario al objeto FormData si los hay
   formData.append('Codigo', data.Codigo);
   formData.append('Descripcion', data.Descripcion);
@@ -70,13 +69,9 @@ export const productEditFetch = async (data) => {
   formData.append('PrecioVenta', data.PrecioVenta);
   formData.append('Stock', data.Stock);
 
-  // if (data.img !== 'default.jpeg') {
-  //   formData.append('products', data.img[0]); // Agrega la imagen al objeto FormData
-  // }
-
   try {
     const res = await fetch(
-      `http://127.0.0.1:9000/products/update/${data._id}`,
+      `http://127.0.0.1:9000/productos/update/${data._id}`,
       {
         method: 'PUT',
         body: formData,

@@ -1,7 +1,7 @@
 import { Schema, model, Types } from 'mongoose';
-import { product } from '../intefaces/product';
+import { producto } from '../intefaces/producto';
 
-const productsSchema = new Schema<product>(
+const productsSchema = new Schema<producto>(
   {
     Codigo: {
       type: String,
@@ -37,4 +37,4 @@ const productsSchema = new Schema<product>(
     versionKey: false,
   }
 );
-export const productsModel = model('products', productsSchema);
+export const productsModel = model('producto', productsSchema);

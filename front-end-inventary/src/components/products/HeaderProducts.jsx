@@ -1,12 +1,14 @@
 import { IconSearch } from '@tabler/icons-react';
 import { Button } from '../../componentsUtils/Button';
 import { useRef } from 'react';
+import { useCategorias } from '../../hooks/useCategorias';
 
 export const HeaderProducts = ({
   setFilterData,
   setCatergory,
   setOpenForm,
 }) => {
+  const { categorias, isLoading } = useCategorias();
   const debounceFilter = useRef();
   const debounceCategory = useRef();
 
@@ -39,8 +41,15 @@ export const HeaderProducts = ({
           />
           <select onChange={onQueryChangedCategory} className='text-center'>
             <option value='all'>todos</option>
-            <option value='procesador'>procesador</option>
-            <option value='cargador'>cargadores</option>
+
+            {!isLoading &&
+              categorias.map((cat) => {
+                return (
+                  <option key={cat._id} value={cat.categoria}>
+                    {cat.categoria}
+                  </option>
+                );
+              })}
           </select>
         </div>
       </div>

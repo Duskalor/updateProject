@@ -1,31 +1,22 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
-import { productEditFetch } from '../../fetch/productsFetch';
 import { buttonStyle } from '../../utils/buttonStyle';
 import { useState } from 'react';
+import { useCategorias } from '../../hooks/useCategorias';
+import { useEditProductos } from '../../hooks/useProductos';
 
 export const EditFormProducts = ({ product }) => {
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [error, setError] = useState(null);
-  const client = useQueryClient();
-
+  const { categorias, isLoading } = useCategorias();
+  const { mutate } = useEditProductos();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ values: product });
 
-  const { mutate } = useMutation({
-    mutationFn: productEditFetch,
-    onSuccess: () => {
-      client.invalidateQueries(['products']);
-    },
-  });
-
   const SubmitProduct = async (newProduct) => {
-    // console.log(newProduct);
     if (JSON.stringify(product) !== JSON.stringify(newProduct)) {
-      console.log('templace');
       mutate(newProduct);
       setOpenModalEdit((prev) => !prev);
     } else {
@@ -41,11 +32,11 @@ export const EditFormProducts = ({ product }) => {
         Editar
       </button>
 
-      {openModalEdit && (
+      {!isLoading && openModalEdit && (
         <div
-          onClick={() => {
-            setOpenModalEdit((prev) => !prev);
-          }}
+          // onClick={() => {
+          //   setOpenModalEdit((prev) => !prev);
+          // }}
           className='absolute backdrop-blur-[1px] w-screen h-screen flex justify-center items-center top-0 left-0  bg-colors-black-rgba'
         >
           <div
@@ -113,8 +104,13 @@ export const EditFormProducts = ({ product }) => {
                       required: 'selección obligatorio',
                     })}
                   >
-                    <option value='cargador'>cargador</option>
-                    <option value='procesador'>procesador</option>
+                    {categorias.map((cat) => {
+                      return (
+                        <option key={cat._id} value={cat.categoria}>
+                          {cat.categoria}
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
                 {errors.Categoria && (
@@ -207,6 +203,14 @@ export const EditFormProducts = ({ product }) => {
               >
                 Editar
               </button>
+              <div
+                onClick={() => {
+                  setOpenModalEdit((prev) => !prev);
+                }}
+                className='text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-3sm px-5 py-2.5 mr-2 mb-2'
+              >
+                Cancelar
+              </div>
               {error && <p className='text-red-600 text-3sm'>{error}</p>}
             </form>
           </div>
@@ -217,23 +221,23 @@ export const EditFormProducts = ({ product }) => {
 };
 
 export const EditImgProducts = ({ img, Descripcion }) => {
-  const [open, setOpen] = useState(false);
+  const [open] = useState(false);
   const {
     register,
-    handleSubmit,
+    // handleSubmit,
     formState: { errors },
-  } = useForm({ values: { img } });
+  } = useForm();
   return (
     <>
       <img
         className=' h-10 w-14'
-        src={`http://127.0.0.1:9000/products/images/${img}`}
+        src={`http://127.0.0.1:9000/productos/images/${img}`}
         alt={Descripcion}
-        onClick={() => setOpen((prev) => !prev)}
+        // onClick={() => setOpen((prev) => !prev)}
       />
       {/*  img */}
       {open && (
-        <div className='flex absolute flex-col top-0 '>
+        <div className='flex absolute flex-col top-0 let-0 '>
           <div className='flex gap-2 justify-around p-2'>
             <input
               className='w-[100%] pr-8 focus:outline-none'

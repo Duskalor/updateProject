@@ -1,4 +1,4 @@
-export interface product {
+export interface producto {
   Codigo: string;
   Descripcion: string;
   Categoria: string;

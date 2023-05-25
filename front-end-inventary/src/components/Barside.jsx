@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 import { routesProject } from '../assets/routes';
 import {
   IconLayoutDashboard,
@@ -8,10 +8,12 @@ import {
   IconArrowBigDownLinesFilled,
   IconArrowBigUpLinesFilled,
   IconSettings,
+  IconAccessible,
 } from '@tabler/icons-react';
 export const Barside = () => {
   const [state, setState] = useState(() => {
     const state = localStorage.getItem('state');
+    if (state) redirect(`/${state}`);
     return state ?? routesProject.general;
   });
 
@@ -23,8 +25,8 @@ export const Barside = () => {
     <section className='fixed border-r-[1px] border-gray-300 w-[130px] flex flex-col h-full bg-white p-3 '>
       <h1 className='py-5 border-b-2 text-3xl inline-block mb-6'>Duska TECH</h1>
       <span>{}</span>
-      <div className='flex gap-4 flex-col text-1xl text-black '>
-        <div className=' bg-gray-200 font-bold rounded-xl'>
+      <div className='flex gap-4 flex-col text-1xl text-black [&>div]:bg-gray-200 [&>div]:font-bold [&>div]:rounded-xl'>
+        <div>
           <Link
             to='/'
             onClick={() => setState(routesProject.dashboard)}
@@ -38,7 +40,7 @@ export const Barside = () => {
           </Link>
         </div>
 
-        <div className=' bg-gray-200 font-bold rounded-xl'>
+        <div>
           <Link
             to='/products'
             onClick={() => setState(routesProject.products)}
@@ -51,7 +53,8 @@ export const Barside = () => {
             </div>
           </Link>
         </div>
-        <div className=' bg-gray-200 font-bold rounded-xl'>
+
+        <div>
           <Link
             onClick={() => setState(routesProject.usuarios)}
             className={`flex justify-center items-center h-full py-3 ${
@@ -64,7 +67,22 @@ export const Barside = () => {
             </div>
           </Link>
         </div>
-        <div className=' bg-gray-200 font-bold rounded-xl'>
+
+        <div>
+          <Link
+            onClick={() => setState(routesProject.clientes)}
+            className={`flex justify-center items-center h-full py-3 ${
+              state === routesProject.clientes ? 'text-blue-700' : 'inherit'
+            }`}
+            to='/clientes'
+          >
+            <div className='flex justify-center w-full gap-2'>
+              <IconAccessible size={40} />
+            </div>
+          </Link>
+        </div>
+
+        <div>
           <Link
             onClick={() => setState(routesProject.entradas)}
             className={`flex justify-center items-center h-full py-3 ${
@@ -77,7 +95,8 @@ export const Barside = () => {
             </div>
           </Link>
         </div>
-        <div className=' bg-gray-200 font-bold rounded-xl'>
+
+        <div>
           <Link
             onClick={() => setState(routesProject.salidas)}
             className={`flex justify-center items-center h-full py-3 ${
@@ -90,7 +109,8 @@ export const Barside = () => {
             </div>
           </Link>
         </div>
-        <div className=' bg-gray-200 font-bold rounded-xl'>
+
+        <div>
           <Link
             onClick={() => setState(routesProject.configuracion)}
             className={`flex justify-center items-center h-full py-3 ${

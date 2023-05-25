@@ -1,5 +1,5 @@
-import { product, productsWithId } from '../intefaces/product';
-import { productsModel } from '../models/products';
+import { producto, productsWithId } from '../intefaces/producto';
+import { productsModel } from '../models/producto';
 
 interface query {
   category?: string;
@@ -26,12 +26,12 @@ export const handleAllProducts = async ({ category, filter }: query) => {
   return newfilterData;
 };
 
-export const handleCreateProduct = async (product: product) => {
+export const handleCreateProduct = async (product: producto) => {
   const newProduct = productsModel.create(product);
   return newProduct;
 };
 
-export const handleUpdateProduct = async (id: string, product: product) => {
+export const handleUpdateProduct = async (id: string, product: producto) => {
   const updatedProduct = await productsModel.findByIdAndUpdate(
     { _id: id },
     product

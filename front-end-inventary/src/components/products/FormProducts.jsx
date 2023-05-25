@@ -1,22 +1,15 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
-import { productPostFetch } from '../../fetch/productsFetch';
+import { useCategorias } from '../../hooks/useCategorias';
+import { useCreateProducto } from '../../hooks/useProductos';
 
 export const FormProducts = ({ open }) => {
-  const client = useQueryClient();
-
+  const { categorias, isLoading } = useCategorias();
+  const { mutate } = useCreateProducto();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const { mutate } = useMutation({
-    mutationFn: productPostFetch,
-    onSuccess: () => {
-      client.invalidateQueries(['products']);
-    },
-  });
 
   const SubmitProduct = async (product) => {
     mutate(product);
@@ -24,9 +17,9 @@ export const FormProducts = ({ open }) => {
   };
   return (
     <div
-      onClick={() => {
-        open((prev) => !prev);
-      }}
+      // onClick={() => {
+      //   open((prev) => !prev);
+      // }}
       className='absolute backdrop-blur-[1px] w-screen h-screen flex justify-center items-center top-0 left-0  bg-colors-black-rgba'
     >
       <div
@@ -94,8 +87,14 @@ export const FormProducts = ({ open }) => {
                   required: 'selección obligatorio',
                 })}
               >
-                <option value='cargador'>cargador</option>
-                <option value='procesador'>procesador</option>
+                {!isLoading &&
+                  categorias.map((cat) => {
+                    return (
+                      <option key={cat._id} value={cat.categoria}>
+                        {cat.categoria}
+                      </option>
+                    );
+                  })}
               </select>
             </div>
             {errors.Categoria && (
@@ -188,6 +187,14 @@ export const FormProducts = ({ open }) => {
           >
             Crear
           </button>
+          <div
+            onClick={() => {
+              open((prev) => !prev);
+            }}
+            className='text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-3sm px-5 py-2.5 mr-2 mb-2'
+          >
+            Cerrar
+          </div>
         </form>
       </div>
     </div>

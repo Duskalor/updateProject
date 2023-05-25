@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync } from 'fs';
 import multer, { diskStorage } from 'multer';
-import { productsModel } from '../models/products';
+import { productsModel } from '../models/producto';
 
 const pathDirImg = `${process.cwd()}/Products`;
 
