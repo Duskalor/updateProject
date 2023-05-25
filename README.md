@@ -1,1 +1,1 @@
-creando otra version del proyecto anterior de para titulación
+creando otra version del proyecto anterior para titulación
