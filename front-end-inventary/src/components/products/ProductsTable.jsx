@@ -1,5 +1,6 @@
-import { ModalDelete } from '../../utils/ModalDelete';
-import { EditFormProducts, EditImgProducts } from './EditFormProducts';
+import { ModalDelete } from '../../componentsUtils/ModalDelete';
+import { EditFormProducts } from './EditFormProducts';
+import { EditImgProducts } from './EditImgProducts';
 import { FormProducts } from './FormProducts';
 
 export const ProductsTable = ({
@@ -49,8 +50,9 @@ export const ProductsTable = ({
                     {data.Codigo}
                   </td>
                   <td>
-                    <div className='p-3 text-2sm text-gray-700 flex justify-between gap-5'>
+                    <div className='p-3 text-2sm text-gray-700 flex justify-between '>
                       <EditImgProducts
+                        id={data._id}
                         img={data.img}
                         Descripcion={data.Descripcion}
                       />

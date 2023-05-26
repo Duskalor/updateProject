@@ -4,6 +4,7 @@ import { unlink } from 'fs';
 import {
   handleAllProducts,
   handleCreateProduct,
+  handleUpdateImg,
   handleUpdateProduct,
   handledeleteProduct,
 } from '../services/product';
@@ -35,7 +36,7 @@ export const createProduct = async (req: Request, res: Response) => {
 export const updateProduct = async (req: Request, res: Response) => {
   const product = req.body;
   const id = req.params.id;
-
+  console.log({ id, product });
   try {
     const updateProduct = await handleUpdateProduct(id, { ...product });
     res.status(200).send({ updateProduct, msg: 'Producto Actualizado' });
@@ -68,3 +69,20 @@ export const deleteProduct = async (req: Request, res: Response) => {
 };
 
 // export const insertManyProducts = async (req: Request, res: Response) => {};
+
+export const getImg = (req: Request, res: Response) => {
+  const newImageName = req.params.imageName;
+  const carpet = 'Products';
+  const routePath = `${process.cwd()}/${carpet}`;
+  const imagePath = `${routePath}/${newImageName}`;
+  res.sendFile(imagePath);
+};
+
+export const updateImg = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const img = req?.file?.filename ?? 'default.jpeg';
+  console.log({ img });
+  const updatedImg = await handleUpdateImg(id, img);
+  res.send(updatedImg);
+};

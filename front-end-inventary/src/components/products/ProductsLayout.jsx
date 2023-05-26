@@ -13,7 +13,6 @@ export const ProductsLayout = () => {
     filterData,
     catergory
   );
-
   return (
     <div className='pl-[130px]'>
       <h2 className='text-3xl  py-5 bg-white'>Products</h2>

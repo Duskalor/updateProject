@@ -219,37 +219,3 @@ export const EditFormProducts = ({ product }) => {
     </>
   );
 };
-
-export const EditImgProducts = ({ img, Descripcion }) => {
-  const [open] = useState(false);
-  const {
-    register,
-    // handleSubmit,
-    formState: { errors },
-  } = useForm();
-  return (
-    <>
-      <img
-        className=' h-10 w-14'
-        src={`http://127.0.0.1:9000/productos/images/${img}`}
-        alt={Descripcion}
-        // onClick={() => setOpen((prev) => !prev)}
-      />
-      {/*  img */}
-      {open && (
-        <div className='flex absolute flex-col top-0 let-0 '>
-          <div className='flex gap-2 justify-around p-2'>
-            <input
-              className='w-[100%] pr-8 focus:outline-none'
-              name='products'
-              type='file'
-              id='img'
-              {...register('img')}
-            />
-          </div>
-          {errors.img && <p className='text-red-600'>{errors.img?.message}</p>}
-        </div>
-      )}
-    </>
-  );
-};

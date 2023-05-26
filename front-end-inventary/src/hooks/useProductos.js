@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
+  handleUpdateimg,
   productEditFetch,
   productFetch,
   productPostFetch,
@@ -44,4 +45,18 @@ export const useGetProducts = (filterData, catergory) => {
   });
 
   return { products, isLoading, isError };
+};
+
+export const useUpdateImg = () => {
+  const client = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: handleUpdateimg,
+
+    onSuccess: () => {
+      client.invalidateQueries(['products']);
+    },
+  });
+
+  return [mutate];
 };

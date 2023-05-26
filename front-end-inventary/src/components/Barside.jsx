@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, redirect } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { routesProject } from '../assets/routes';
 import {
   IconLayoutDashboard,
@@ -11,11 +11,15 @@ import {
   IconAccessible,
 } from '@tabler/icons-react';
 export const Barside = () => {
-  const [state, setState] = useState(() => {
+  const navigate = useNavigate();
+  const [state, setState] = useState(() => routesProject.dashboard);
+
+  useEffect(() => {
     const state = localStorage.getItem('state');
-    if (state) redirect(`/${state}`);
-    return state ?? routesProject.general;
-  });
+    if (state === routesProject.dashboard) return;
+    setState(state);
+    state && navigate(`/${state}`);
+  }, []);
 
   useEffect(() => {
     localStorage.setItem('state', state);

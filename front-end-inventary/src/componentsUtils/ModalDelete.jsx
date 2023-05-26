@@ -1,6 +1,6 @@
 import { IconTrash } from '@tabler/icons-react';
 import { useState } from 'react';
-import { buttonStyle } from './buttonStyle';
+import { buttonStyle } from '../utils/buttonStyle';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteProducts } from '../fetch/productsFetch';
 

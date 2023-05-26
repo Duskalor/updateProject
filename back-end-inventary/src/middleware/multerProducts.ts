@@ -23,7 +23,8 @@ const storage = diskStorage({
       const name = new Date().getTime();
       callback(null, `${name}.${ext}`);
     } else {
-      callback(null, continueNextPart);
+      const newName = continueNextPart.split('?').shift() ?? '';
+      callback(null, newName);
     }
   },
 });

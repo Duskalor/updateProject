@@ -1,4 +1,5 @@
-import { producto, productsWithId } from '../intefaces/producto';
+import { unlink } from 'fs';
+import { producto } from '../intefaces/producto';
 import { productsModel } from '../models/producto';
 
 interface query {
@@ -43,4 +44,16 @@ export const handledeleteProduct = async (id: string) => {
   const deletedProduct = await productsModel.findOneAndRemove({ _id: id });
   console.log({ deletedProduct });
   return deletedProduct;
+};
+
+export const handleUpdateImg = async (id: string, img: string) => {
+  const product = await productsModel.findById({ _id: id }).lean();
+  if (!product) return 'Producto inexistente';
+
+  const idAlter = new Date().getTime();
+  const newIMG = await productsModel.findByIdAndUpdate(
+    { _id: id },
+    { img: `${img}?lastupdate=${idAlter}` }
+  );
+  return newIMG;
 };

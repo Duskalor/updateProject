@@ -17,10 +17,10 @@ export const allCategorias = async (req: Request, res: Response) => {
 };
 
 export const createCategorias = async (req: Request, res: Response) => {
-  const rol = req.body;
+  const categoria = req.body;
   try {
-    const newRol = await handleCreateCategorias(rol);
-    res.status(200).send({ newRol, msg: 'Categoria Agregado' });
+    const newCategoria = await handleCreateCategorias(categoria);
+    res.status(200).send({ newCategoria, msg: 'Categoria Agregado' });
   } catch (error) {
     res.status(500).send({ error, msg: 'Categoria No Agregado' });
   }

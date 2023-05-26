@@ -60,21 +60,16 @@ export const deleteProducts = async (id) => {
 };
 
 export const productEditFetch = async (data) => {
-  const formData = new FormData();
-  // Agrega los demás datos del formulario al objeto FormData si los hay
-  formData.append('Codigo', data.Codigo);
-  formData.append('Descripcion', data.Descripcion);
-  formData.append('Categoria', data.Categoria);
-  formData.append('PrecioCompra', data.PrecioCompra);
-  formData.append('PrecioVenta', data.PrecioVenta);
-  formData.append('Stock', data.Stock);
-
   try {
     const res = await fetch(
       `http://127.0.0.1:9000/productos/update/${data._id}`,
       {
         method: 'PUT',
-        body: formData,
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
       }
     );
 
@@ -90,4 +85,23 @@ export const productEditFetch = async (data) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const handleUpdateimg = ({ id, newImg }) => {
+  const formImg = new FormData();
+  formImg.append('products', newImg);
+  return fetch(`http://localhost:9000/productos/img/${id}`, {
+    method: 'PUT',
+    body: formImg,
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error('error al modificar la imagen');
+      }
+    })
+    .then((data) => data)
+
+    .catch((e) => console.error(e));
 };
